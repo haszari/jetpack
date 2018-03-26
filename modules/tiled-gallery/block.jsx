@@ -46,7 +46,7 @@ function filterAddMasonryClass( props, blockType, attributes ) {
 		let currentClasses = props.className || '';
 
 		if ( attributes.masonryLayout ) {
-			currentClasses += ' tiled-gallery';
+			currentClasses += ' jetpack-tiled-gallery';
 		}
 
 		props = Object.assign( props, { className: currentClasses } );

@@ -15,6 +15,7 @@ class Jetpack_Tiled_Gallery {
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'settings_api_init' ) );
  		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_block_editor_assets' ) );
+ 		add_action( 'enqueue_block_assets', array( __CLASS__, 'enqueue_block_assets' ) );
 		add_filter( 'jetpack_gallery_types', array( $this, 'jetpack_gallery_types' ), 9 );
 		add_filter( 'jetpack_default_gallery_type', array( $this, 'jetpack_default_gallery_type' ) );
 
@@ -241,6 +242,22 @@ class Jetpack_Tiled_Gallery {
  			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components' )
  		);
  		wp_enqueue_script( 'jetpack-block-tiled-gallery-block' );
+  }
+
+	/**
+	 * Enqueue js for masonry-style layout on frontend
+	 */
+	public static function enqueue_block_assets() {
+ 		wp_register_script(
+ 			'jetpack-block-tiled-gallery-block-frontend',
+ 			plugins_url( 'gutenberg-masonry/gutenberg-masonry.js', __FILE__ ),
+ 			array( 'jquery', 'masonry' )
+ 		);
+ 		// cancel this, masonry fighting the css
+ 		// wp_enqueue_script( 'jetpack-block-tiled-gallery-block-frontend' );
+
+ 		// try mocco-style css instead
+		wp_enqueue_style( 'gutenberg-masonry', plugins_url( 'gutenberg-masonry/gutenberg-masonry.css', __FILE__ ), array(), __FILETIME__ );
   }
 
 
