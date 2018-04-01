@@ -19,18 +19,22 @@ const {
 	BlockControls
 } = wp.blocks;
 
-function filterAddMasonryBlockAttribute( settings, blockTypeName ) {
+function filterExtendGalleryBlock( settings, blockTypeName ) {
 	if ( blockTypeName === 'core/gallery' ) {
 		let blockAttributes = settings.attributes || {};
-
 		blockAttributes = Object.assign( blockAttributes, {
 			masonryLayout: {
 				type: 'boolean',
 				'default': false,
 			}
 		} );
-
 		settings.attributes = blockAttributes;
+
+		const blockKeywords = settings.keywords || [];
+		blockKeywords.push(
+			__( 'jetpack tiled gallery' ),
+		);
+		settings.keywords = blockKeywords;
 	}
 	return settings;
 }
@@ -38,7 +42,7 @@ function filterAddMasonryBlockAttribute( settings, blockTypeName ) {
 wp.hooks.addFilter(
 	'blocks.registerBlockType',
 	'jetpack-module-tiled-gallery/hook-block-register',
-	filterAddMasonryBlockAttribute
+	filterExtendGalleryBlock
 );
 
 function filterAddMasonryClass( props, blockType, attributes ) {
